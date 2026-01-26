@@ -1,333 +1,118 @@
-# ProofLedger
+Cognitive Radio Spectrum Monitoring System
 
-ProofLedger is a proof‑of‑existence dApp built on **Ethereum Sepolia**, letting users anchor document fingerprints (IPFS CIDs / hashes) on‑chain and verify them later via shareable links.
-
-The frontend is a modern **Next.js App Router** app with a **Web3 SaaS** feel, and the backend logic is a simple, auditable **Hardhat** smart contract.
 
 ---
 
-## Features
+👥 Team Details
 
-- **Proof creation**
-  - Upload any file to IPFS (via Pinata).
-  - Get a CID and register it on Ethereum Sepolia with a human‑readable title.
-  - Transaction status + confirmations surfaced in the UI.
+Team Name: Cognitive Radio Innovators
 
-- **Verification**
-  - Public verification page: `/verify/[proofId]`
-  - Shows title, owner address, timestamp, IPFS link.
-  - Copyable share link so anyone can independently verify proofs.
+Team Members:
 
-- **Dashboard**
-  - Wallet‑gated `/dashboard` page.
-  - Lists **only proofs created by the connected wallet**.
-  - On‑chain visualization: animated chain of blocks with Genesis block, pulsing glow, and data‑flow connectors.
+Aakanksha A
 
-- **UX / UI**
-  - Modern, responsive layout (desktop + mobile).
-  - Navbar with routing: Home, Create, Verify, Dashboard, About.
-  - Wallet connect + disconnect (desktop + mobile).
-  - Clean dark mode‑friendly aesthetics (radial gradients, glassmorphism).
+Pavithra C
 
-- **Smart contract**
-  - Minimal `ProofRegistry` contract that stores:
-    - `owner` (address)
-    - `ipfsHash` (IPFS CID or hash)
-    - `title` (string)
-    - `timestamp` (uint256)
-  - Read helpers: `getProof(id)` and `getProofs()` for small datasets.
+
 
 ---
 
-## Tech Stack
+🌐 Domain of the Project
 
-- **Frontend**
-  - Next.js 16 (App Router)
-  - React + TypeScript
-  - Tailwind CSS v4 (inline `@theme`)
-  - wagmi v3 + viem + ethers v6
-  - WalletConnect, MetaMask / injected providers, Coinbase Wallet
+Wireless Communication / Cognitive Radio / Spectrum Monitoring
 
-- **Smart Contracts / Tooling**
-  - Solidity `^0.8.20`
-  - Hardhat + `@nomicfoundation/hardhat-toolbox`
-  - TypeChain
-
-- **Infra**
-  - Ethereum Sepolia network
-  - IPFS via Pinata
 
 ---
 
-## Project Structure
+💡 Idea
 
-```text
-ProofLedger/
-  contracts/
-    ProofRegistry.sol        # Solidity contract
-  scripts/
-    deploy.ts                # Hardhat deployment script
-  src/
-    app/
-      page.tsx               # Landing page (/)
-      create/page.tsx        # Create proof (/create)
-      verify/page.tsx        # Verify by ID input (/verify)
-      verify/[id]/page.tsx   # Public proof page (/verify/[id])
-      dashboard/page.tsx     # Wallet dashboard + visualization
-      about/page.tsx         # About + use cases
-      api/pinata/route.ts    # IPFS upload API (Pinata)
-      layout.tsx             # Root layout + NavBar + providers
-      globals.css            # Tailwind + global styles
-    components/
-      NavBar.tsx
-      WalletStatus.tsx
-      FileUpload.tsx
-      ProofForm.tsx
-      ProofList.tsx
-      ProofLedgerVisualizer.tsx
-    lib/
-      abi/proofRegistry.ts   # ABI + address helper
-      wagmi/config.ts        # wagmi/viem client config
-  hardhat.config.ts
-  package.json
-  env.example
-  README.md                  # (this file)
-```
+Efficient utilization of the radio frequency spectrum is a major challenge in modern wireless communication systems. Unauthorized or inefficient spectrum usage can lead to interference, reduced network performance, and wastage of valuable spectrum resources.
+
+The Cognitive Radio Spectrum Monitoring System addresses this issue by simulating radio signals, analyzing spectrum usage, and detecting unauthorized transmissions. The system uses FFT-based energy detection along with a machine learning model (Logistic Regression) to classify spectrum activity. An interactive Streamlit-based web application visualizes signals and detection results in real time, making the system intuitive and easy to understand.
+
 
 ---
 
-## Prerequisites
+🛠 Tech Stack Used
 
-- Node.js **18+**
-- npm
-- Funded Sepolia wallet for deployment / interactions
-- Pinata account (for IPFS uploads)
+Python
 
----
+NumPy & SciPy – signal generation and FFT-based spectrum analysis
 
-## Setup
+Scikit-learn – Logistic Regression model for unauthorized signal detection
 
-1. **Install dependencies**
+Matplotlib – signal and frequency-domain visualization
 
-```bash
-npm install
-```
+Streamlit – interactive frontend and cloud deployment
 
-2. **Configure environment variables**
+Joblib – machine learning model serialization
 
-Copy the example file and fill in values:
 
-```bash
-cp env.example .env.local
-```
-
-Required values:
-
-- **Frontend**
-  - `NEXT_PUBLIC_SEPOLIA_RPC_URL` – HTTPS Sepolia RPC endpoint
-  - `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` – WalletConnect Cloud project id
-  - `NEXT_PUBLIC_PROOF_CONTRACT_ADDRESS` – Deployed `ProofRegistry` address
-
-- **Hardhat / deployment**
-  - `SEPOLIA_RPC_URL` – Same or separate Sepolia RPC endpoint
-  - `PRIVATE_KEY` – Deployer wallet private key (Sepolia)
-  - `ETHERSCAN_API_KEY` – Optional, for contract verification
-
-- **IPFS / Pinata**
-  - `PINATA_API_KEY`
-  - `PINATA_SECRET_API_KEY`
 
 ---
 
-## Running the App
+▶️ How to Execute the Code (Local Setup)
 
-### Development server
+Prerequisites
 
-```bash
-npm run dev
-# visit http://localhost:3000
-```
+Python 3.9 or above
 
-Changes are hot‑reloaded.
+Git
 
-### Hardhat tests
 
-```bash
-npm run test:contracts
-```
+Steps
 
-### Deploy contract to Sepolia
+1. Clone the repository
 
-```bash
-npm run deploy:sepolia
-```
+git clone https://github.com/Pavithra-Chakravarthy/Cognitive-radio-streamlit.git
+cd Cognitive-radio-streamlit
 
-After deployment, set:
 
-- `NEXT_PUBLIC_PROOF_CONTRACT_ADDRESS` to the printed contract address,
-- then restart `npm run dev`.
+2. Install required dependencies
 
-(Optional) Verify on Etherscan:
+python -m pip install -r requirements.txt
 
-```bash
-cross-env TS_NODE_PROJECT=tsconfig.hardhat.json npx hardhat verify --network sepolia <deployed_address>
-```
 
----
+3. Run the Streamlit application
 
-## Key Flows
+python -m streamlit run 04_frontend_demo/app.py
 
-### Create a proof (`/create`)
 
-1. Connect a wallet via the navbar.
-2. Upload a file using the **IPFS upload** card (Pinata).
-3. Copy the resulting CID.
-4. In the proof form:
-   - Enter a **Title** (e.g., “NDA v1 PDF”).
-   - Paste the **CID** (or any hash).
-5. Click **Register Proof** to anchor it on Ethereum Sepolia.
+4. Access the application
 
-### Verify a proof (`/verify` and `/verify/[id]`)
+Open a browser and navigate to:
 
-- `/verify`: enter a **Proof ID** and click **Verify Proof** to redirect.
-- `/verify/[id]`: public page that:
-  - Validates ID using `proofCount`.
-  - Fetches proof via `getProof(id)`.
-  - Displays title, owner, timestamp, IPFS link.
-  - Offers a **Copy link** button for sharing.
+http://localhost:8501
 
-### Dashboard (`/dashboard`)
 
-- Requires a connected wallet.
-- Top: animated chain of cubes representing the wallet’s proofs.
-  - **Genesis Block** = first (oldest) proof.
-  - Pulsing glow + animated connectors to feel “on-chain”.
-- Bottom: table/list of proofs filtered to the connected address.
+
+
 
 ---
 
-## Scripts
+🔗 Code Sample / Hosted Website
 
-```bash
-npm run dev            # Start Next.js dev server
-npm run build          # Build for production
-npm run start          # Start production server
-npm run lint           # Run ESLint
-npm run hardhat        # Run Hardhat CLI
-npm run test:contracts # Run Hardhat tests
-npm run deploy:sepolia # Deploy ProofRegistry to Sepolia
-```
+GitHub Repository:
+👉 https://github.com/Pavithra-Chakravarthy/Cognitive-radio-streamlit.git
+
+Live Hosted Application:
+👉 https://cognitive-radio-app-ek3gpxaiwcidd7spnax7nn.streamlit.app/
+
+
 
 ---
 
-## Security / Notes
+💻 Code Sample (Run Command)
 
-- Only minimal metadata + hash/CID are stored on‑chain; **documents themselves stay off‑chain**.
-- This is a demo‑grade contract and UI:
-  - No advanced access control.
-  - No gas optimizations or batching.
-- For production:
-  - Consider multi‑network support (L2s).
-  - Add rate limiting & auth around the Pinata API route.
-  - Review and harden contract with audits.
+python -m streamlit run 04_frontend_demo/app.py
+
 
 ---
 
-## License
+📝 Notes for Evaluators
 
-MIT. See `LICENSE` (add one if not present).
+The project demonstrates spectrum sensing using FFT, energy detection, and machine learning-based classification.
 
----
+The modular project structure separates signal generation, spectrum sensing, unauthorized detection, and frontend visualization.
 
-## Credits
-
-Built with:
-
-- [Next.js](https://nextjs.org)
-- [wagmi](https://wagmi.sh)
-- [Hardhat](https://hardhat.org)
-- [Pinata](https://www.pinata.cloud)
-
-# ProofLedger
-
-Proof-of-existence dApp built with Next.js 14 (App Router), wagmi + ethers v6, Tailwind CSS, and Hardhat. Deploys a `ProofRegistry` contract to Ethereum Sepolia to anchor document hashes or CIDs on-chain.
-
-## Stack
-- Next.js 14 + TypeScript + App Router
-- wagmi 3 + ethers v6 + React Query
-- Tailwind CSS (v4, @import-based)
-- Hardhat + @nomicfoundation/hardhat-toolbox
-- Network: Ethereum Sepolia
-
-## Project structure
-- `src/app` – UI pages and layout
-- `src/components` – Wallet UI and proof form/list components
-- `src/lib/abi` – Contract ABI + address helper
-- `src/lib/wagmi` – wagmi client configuration
-- `contracts` – Solidity sources (`ProofRegistry.sol`)
-- `scripts` – Hardhat deployment scripts
-- `test` – Hardhat tests
-
-## Prerequisites
-- Node.js 18+
-- npm
-- Funded Sepolia wallet (for deployment/interaction)
-
-## Setup
-1) Install dependencies
-```bash
-npm install
-```
-
-2) Copy env template and fill values
-```bash
-cp env.example .env.local
-```
-Required values:
-- `NEXT_PUBLIC_SEPOLIA_RPC_URL` – HTTPS RPC endpoint
-- `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` – WalletConnect Cloud project id
-- `NEXT_PUBLIC_PROOF_CONTRACT_ADDRESS` – Deployed ProofRegistry address
-- `SEPOLIA_RPC_URL`, `PRIVATE_KEY`, `ETHERSCAN_API_KEY` – used by Hardhat
-
-3) Run the web app
-```bash
-npm run dev
-# open http://localhost:3000
-```
-
-## Hardhat
-All Hardhat commands automatically use `tsconfig.hardhat.json` via `cross-env`.
-
-- Run tests:
-```bash
-npm run test:contracts
-```
-
-- Deploy to Sepolia:
-```bash
-npm run deploy:sepolia
-```
-After deployment, set `NEXT_PUBLIC_PROOF_CONTRACT_ADDRESS` to the printed address.
-
-## IPFS via Pinata
-- Add to `.env.local`:
-```
-PINATA_API_KEY=...
-PINATA_SECRET_API_KEY=...
-```
-- Use the "Upload to IPFS (Pinata)" widget in the UI to pin any file. Progress and resulting CID will be shown. Secrets stay server-side; the client only calls your `/api/pinata` route.
-
-- Verify (optional):
-```bash
-cross-env TS_NODE_PROJECT=tsconfig.hardhat.json npx hardhat verify --network sepolia <address>
-```
-
-## DApp usage
-1) Ensure `NEXT_PUBLIC_PROOF_CONTRACT_ADDRESS` points to a deployed `ProofRegistry` on Sepolia.
-2) Connect a wallet (injected, WalletConnect, or Coinbase Wallet).
-3) Submit a label and proof hash/CID; wait for confirmations.
-4) Recent proofs render in the list with submitter, timestamp, and stored hash.
-
-## Notes
-- Contract is intentionally simple for demo purposes (stores small proof metadata on-chain).
-- Tailwind v4 uses `@import "tailwindcss";` and inline theme tokens; no config file is needed.
+The system is scalable and can be extended to work with real-time inputs from Software Defined Radios (SDRs) in future implementations.
